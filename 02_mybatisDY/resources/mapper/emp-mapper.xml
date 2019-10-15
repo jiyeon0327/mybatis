@@ -1,53 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="emp">
-	<select id="selectSearch" parameterType="map" resultType="map">
-			select * 
-			from(select A.*,
-			case when substr(emp_no,8,1) IN('1','3') THEN '남'
-				ELSE '여' 
-				END AS gender from employee A) 
-			where 1=1
-			<!--trim으로 씀 1=1(무조건, true로 만들기 /전체 다 출력)  -->
-			<if test="type != null and type != ''"> 
-				And ${type} like '%'||#{key}||'%'
+<select id="selectSearch" parameterType="map" resultType="map">
+select * from(select A.*, case when substr(emp_no,8,1) IN('1','3') THEN '남' ELSE '여' END AS gender from employee A) where 2=2
+<if test="type != null and type != ''"> AND ${type} like '%'||#{key}||'%' </if>
+<if test="gender !=null and gender!=''"> AND gender = #{gender} </if>
+<!--
+ <if test="salary !=null and salary!=''">
+			<if test="flag eq 'ge'">
+				AND salary <![CDATA[>=]]> #{salary}
 			</if>
-			<if test="gender !=null and gender != ''">
-				AND gender=#{gender}				
+			<if test="flag eq 'le'">
+				AND salary <![CDATA[<=]]> #{salary}
 			</if>
-			<!-- <if test="salary !=null and gender != '' ">
-				<if test="flag eq 'ge'">
-					AND salary <![CDATA[>=]]> #{salary}
-				</if>			
-				<if test="flag eq 'le' " >
-				 AND salary <![CDATA[<=]]> #{salary}	
-				</if>
-			</if> -->
+		</if> 
+-->
+			<!--  choose구문 사용하기  -->
 			<if test="salary !=null and salary!=''">
 			<choose>
-				<when test="flag eq 'ge'">
-					AND salary <![CDATA[>=]]> #{salary}
-				</when>
-				<when test="flag eq 'le'">
-					AND salary <![CDATA[<=]]> #{salary}
-				</when>
-					<otherwise>
-					</otherwise>
-				</choose>
+			<when test="flag eq 'ge'">
+			AND salary
+			<![CDATA[ >= ]]>
+			#{salary}
+			</when>
+			<when test="flag eq 'le'">
+			AND salary
+			<![CDATA[ <= ]]>
+			#{salary}
+			</when>
+			<otherwise> </otherwise>
+			</choose>
 			</if>
-			<if test="hiredate !=null and hiredate !=''">
-			<choose>
-				<when test="flags eq 'date_ge'">
-					AND hire_date <![CDATA[>=]]> #{hiredate}
-				</when>
-				<when test="flags eq 'date_le'">
-					AND hire_date <![CDATA[<=]]> #{hiredate}
-				</when>
-					<otherwise>
-					</otherwise>
-				</choose>
+			<!--  다중값을 비교하는 방법  -->
+			<if test="jobs !=null and jobs !=''">
+			AND job_code IN
+			<foreach collection="jobs" item="j" open="(" separator="," close=")"> #{j} </foreach>
 			</if>
-			
-	</select>
-
-</mapper>
+		</select>
+		
+		<select id="selectCount" resultType="_int">
+			SELECT COUNT(*) FROM EMPLOYEE
+		</select>
+		
+		<select id="selectPagelist" resultType="map">
+			<!-- Select * from (select rownum as rnum,a.*from....) -->
+			select * from employee
+		</select>
+		</mapper>

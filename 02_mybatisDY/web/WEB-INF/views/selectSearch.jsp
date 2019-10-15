@@ -57,7 +57,26 @@
 					<input type='radio' name="ent_date" id="ent_date_le" value="date_le"/>이후
 				</label>
 			</td>
-			</tr>			
+			</tr>
+			<tr>	
+			<th>직책</th>		
+			<td>
+				<input type="checkbox" name="job_code" id="J1" value="J1"/>
+				<label for="J1"> 대표</label>
+				<input type="checkbox" name="job_code" id="J2" value="J2"/>
+				<label for="J2"> 부사장</label>
+				<input type="checkbox" name="job_code" id="J3" value="J3"/>
+				<label for="J3"> 부장</label>
+				<input type="checkbox" name="job_code" id="J4" value="J4"/>
+				<label for="J4"> 차장</label>
+				<input type="checkbox" name="job_code" id="J5" value="J5"/>
+				<label for="J5"> 과장</label>
+				<input type="checkbox" name="job_code" id="J6" value="J6"/>
+				<label for="J6"> 대리</label>
+				<input type="checkbox" name="job_code" id="J7" value="J7"/>
+				<label for="J7"> 사원</label>
+			</td>
+			</tr>
 			<tr>
 				<td colspan='2'>
 				<input type="submit" value="검색"/>

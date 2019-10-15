@@ -43,7 +43,9 @@ public class SelectSearchEndServlet extends HttpServlet {
 		String salary_le_ge=request.getParameter("salary_le_ge");
 		String hiredate=request.getParameter("hiredate");
 		String ent_date_ge_le=request.getParameter("ent_date");
-		Map<String,String> param=new HashMap();
+		//String jobs=request.getParameter("job_code"); 다중값이어서 불가능
+		String[] jobs=request.getParameterValues("job_code"); 
+		Map<String,Object> param=new HashMap();
 		param.put("type",type);
 		param.put("key",key);
 		param.put("gender", gender);
@@ -51,6 +53,8 @@ public class SelectSearchEndServlet extends HttpServlet {
 		param.put("flag",salary_le_ge);
 		param.put("hiredate",hiredate);
 		param.put("flags", ent_date_ge_le);
+		param.put("jobs",jobs);
+		
 		List<Map> list=service.selectSearch(param);
 		request.setAttribute("emp", list);
 		System.out.println(list);
